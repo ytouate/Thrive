@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  app:
+    container_name: app
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: always
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+  db:
+    container_name: workout_builder_db
+    image: postgres:15
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - workout_builder_db:/var/lib/postgresql/data
+
+volumes:
+  workout_builder_db:
